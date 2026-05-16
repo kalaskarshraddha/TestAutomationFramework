@@ -37,8 +37,7 @@ public class NaukriTest {
 
         //click on login button and enter username and password
         wait.until(ExpectedConditions.elementToBeClickable(By.id("login_Layer"))).click();
-        driver.findElement(By.xpath("//input[@placeholder=\"Enter your active Email ID / Username\"]")).sendKeys("unmeshtemkar@zohomail.in");
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder=\"Enter your active Email ID / Username\"]"))).sendKeys("unmeshtemkar@zohomail.in");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder=\"Enter your active Email ID / Username\"]"))).sendKeys("unmeshtemkar@zohomail.in");
         driver.findElement(By.xpath("//*[@placeholder=\"Enter your password\"]")).sendKeys("1995@umaaa");
         driver.findElement(By.xpath("//button[text()='Login']")).click();
 
