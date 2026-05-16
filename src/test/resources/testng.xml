@@ -1,0 +1,8 @@
+<suite name="Naukri Suite" parallel="methods" thread-count="2">
+    <test name="Chrome Test">
+        <classes>
+            <class name="org.naukriautomation.NaukriTest"/>
+        </classes>
+    </test>
+
+</suite>
