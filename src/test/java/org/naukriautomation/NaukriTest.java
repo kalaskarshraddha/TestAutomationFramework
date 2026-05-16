@@ -1,5 +1,6 @@
 package org.naukriautomation;
 
+import org.POM.LoginPageFactory;
 import org.openqa.selenium.*;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,6 +19,7 @@ import java.time.Duration;
 public class NaukriTest {
 
     private WebDriverWait wait;
+    private LoginPageFactory loginPageFactory;
 
     @BeforeMethod
     public void setUp() {
@@ -25,30 +27,30 @@ public class NaukriTest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().window().maximize();
+        driver.get("https://www.naukri.com/");
+
+        loginPageFactory = new LoginPageFactory(driver);
     }
 
     @Test
     public void updateProfile() throws IOException {
         WebDriver driver = DriverFactory.getDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-
-        driver.get("https://www.naukri.com/");
-        driver.manage().window().maximize();
 
         //click on login button and enter username and password
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("login_Layer"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder=\"Enter your active Email ID / Username\"]"))).sendKeys("unmeshtemkar@zohomail.in");
-        driver.findElement(By.xpath("//*[@placeholder=\"Enter your password\"]")).sendKeys("1995@umaaa");
-        driver.findElement(By.xpath("//button[text()='Login']")).click();
+        //LoginPageSimple loginPageSimple = new LoginPageSimple();
+        //loginPageSimple.clickLogin();
+
+        loginPageFactory.clickOnLgn();
+        loginPageFactory.enterUserName();
+        loginPageFactory.enterPwd();
+        loginPageFactory.clickOnSubmitBtn();
 
         driver.findElement(By.xpath("//*[@class=\"view-profile-wrapper\"]/child::a")).click();
         driver.findElement(By.xpath("//em[@class=\"icon edit \"]")).click();
         driver.findElement(By.id("saveBasicDetailsBtn")).click();
 
-
         String confirmMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Profile updated successfully']"))).getText();
         Assert.assertEquals(confirmMsg, "Profile updated successfully");
-
 
         TakesScreenshot ts = (TakesScreenshot) driver;
         File src = ts.getScreenshotAs(OutputType.FILE);
