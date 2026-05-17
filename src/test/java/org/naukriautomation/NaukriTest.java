@@ -1,57 +1,72 @@
 package org.naukriautomation;
 
+import org.POM.LoginPageFactory;
+import org.listener.TestListeners;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+import org.utils.ExcelUtils;
+import org.utils.PropertiesFileReader;
+import org.webdrivermanager.DriverFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Driver;
 import java.time.Duration;
 
-
+@Listeners(TestListeners.class)
 public class NaukriTest {
-    WebDriver driver;
-    @Test
-    public void updateProfile() throws IOException {
-        driver=new ChromeDriver();
-        WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(5));
+
+    private WebDriverWait wait;
+    private LoginPageFactory loginPageFactory;
+
+    @BeforeMethod
+    public void setUp() throws IOException {
+        WebDriver driver = DriverFactory.getDriver();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-
-        driver.get("https://www.naukri.com/");
         driver.manage().window().maximize();
-        //driver.navigate().refresh();
+        String appUrl= PropertiesFileReader.getDataFromPropertiesFile("qa","app_url");
+        driver.get(appUrl);
 
+        loginPageFactory = new LoginPageFactory(driver);
+    }
+
+    @Test(dataProvider = "testData")
+    public void updateProfile(String usrname, String pwd) throws IOException {
+        WebDriver driver = DriverFactory.getDriver();
 
         //click on login button and enter username and password
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("login_Layer"))).click();
+        //LoginPageSimple loginPageSimple = new LoginPageSimple();
+        //loginPageSimple.clickLogin();
 
-        driver.findElement(By.xpath("//input[@placeholder=\"Enter your active Email ID / Username\"]")).sendKeys("unmeshtemkar@zohomail.in");
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder=\"Enter your active Email ID / Username\"]"))).sendKeys("unmeshtemkar@zohomail.in");
-        driver.findElement(By.xpath("//*[@placeholder=\"Enter your password\"]")).sendKeys("1995@umaaa");
-        driver.findElement(By.xpath("//button[text()='Login']")).click();
+        loginPageFactory.clickOnLgn();
+        loginPageFactory.enterUserName(usrname);
+        loginPageFactory.enterPwd(pwd);
+        loginPageFactory.clickOnSubmitBtn();
 
         driver.findElement(By.xpath("//*[@class=\"view-profile-wrapper\"]/child::a")).click();
         driver.findElement(By.xpath("//em[@class=\"icon edit \"]")).click();
         driver.findElement(By.id("saveBasicDetailsBtn")).click();
 
-
-        String confirmMsg=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Profile updated successfully']"))).getText();
+        String confirmMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Profile updated successfully']"))).getText();
         Assert.assertEquals(confirmMsg, "Profile updated successfully");
 
-
-        TakesScreenshot ts= (TakesScreenshot)driver;
-        File src=ts.getScreenshotAs(OutputType.FILE);
-        File dest=new File("target"+File.separator+"fileUpdated.jpg");
-        FileHandler.copy(src,dest);
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File src = ts.getScreenshotAs(OutputType.FILE);
+        File dest = new File("target" + File.separator + "fileUpdated.jpg");
+        FileHandler.copy(src, dest);
     }
+
     @AfterMethod
     public void tearDown() {
-        driver.quit();
+        DriverFactory.quitDriver();
+    }
+
+    @DataProvider(name = "testData")
+    public Object[][] getTestData() throws IOException {
+        return ExcelUtils.getTestData("testdata", "testDataForLogin");
     }
 }

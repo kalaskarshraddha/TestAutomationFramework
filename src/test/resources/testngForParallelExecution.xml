@@ -1,0 +1,8 @@
+<suite name="Parallel execution" parallel="methods" thread-count="2">
+    <test name="Parallel execution test">
+        <classes>
+            <class name="org.naukriautomation.ParallelExecutionTest"/>
+        </classes>
+    </test>
+
+</suite>
