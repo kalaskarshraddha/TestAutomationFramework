@@ -1,15 +1,13 @@
 package org.naukriautomation;
 
 import org.POM.LoginPageFactory;
+import org.listener.TestListeners;
 import org.openqa.selenium.*;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.utils.ExcelUtils;
 import org.utils.PropertiesFileReader;
 import org.webdrivermanager.DriverFactory;
@@ -18,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 
-
+@Listeners(TestListeners.class)
 public class NaukriTest {
 
     private WebDriverWait wait;
