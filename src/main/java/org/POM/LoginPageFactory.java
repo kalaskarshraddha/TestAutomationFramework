@@ -36,13 +36,13 @@ public class LoginPageFactory {
         wait.until(ExpectedConditions.elementToBeClickable(lgnBtn)).click();
     }
 
-    public void enterUserName() {
-        wait.until(ExpectedConditions.elementToBeClickable(usrName)).sendKeys("unmeshtemkar@zohomail.in");
+    public void enterUserName(String username) {
+        wait.until(ExpectedConditions.elementToBeClickable(usrName)).sendKeys(username);
 
     }
 
-    public void enterPwd() {
-        pwd.sendKeys("1995@umaaa");
+    public void enterPwd(String password) {
+        pwd.sendKeys(password);
     }
 
     public void clickOnSubmitBtn() {

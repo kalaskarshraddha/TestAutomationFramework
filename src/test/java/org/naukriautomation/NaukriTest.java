@@ -8,7 +8,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.utils.ExcelUtils;
 import org.webdrivermanager.DriverFactory;
 
 import java.io.File;
@@ -32,8 +34,8 @@ public class NaukriTest {
         loginPageFactory = new LoginPageFactory(driver);
     }
 
-    @Test
-    public void updateProfile() throws IOException {
+    @Test(dataProvider = "testData")
+    public void updateProfile(String usrname, String pwd) throws IOException {
         WebDriver driver = DriverFactory.getDriver();
 
         //click on login button and enter username and password
@@ -41,8 +43,8 @@ public class NaukriTest {
         //loginPageSimple.clickLogin();
 
         loginPageFactory.clickOnLgn();
-        loginPageFactory.enterUserName();
-        loginPageFactory.enterPwd();
+        loginPageFactory.enterUserName(usrname);
+        loginPageFactory.enterPwd(pwd);
         loginPageFactory.clickOnSubmitBtn();
 
         driver.findElement(By.xpath("//*[@class=\"view-profile-wrapper\"]/child::a")).click();
@@ -61,5 +63,10 @@ public class NaukriTest {
     @AfterMethod
     public void tearDown() {
         DriverFactory.quitDriver();
+    }
+
+    @DataProvider(name = "testData")
+    public Object[][] getTestData() throws IOException {
+        return ExcelUtils.getTestData("testdata", "testDataForLogin");
     }
 }
