@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.utils.ExcelUtils;
+import org.utils.PropertiesFileReader;
 import org.webdrivermanager.DriverFactory;
 
 import java.io.File;
@@ -24,12 +25,13 @@ public class NaukriTest {
     private LoginPageFactory loginPageFactory;
 
     @BeforeMethod
-    public void setUp() {
+    public void setUp() throws IOException {
         WebDriver driver = DriverFactory.getDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().window().maximize();
-        driver.get("https://www.naukri.com/");
+        String appUrl= PropertiesFileReader.getDataFromPropertiesFile("qa","app_url");
+        driver.get(appUrl);
 
         loginPageFactory = new LoginPageFactory(driver);
     }
