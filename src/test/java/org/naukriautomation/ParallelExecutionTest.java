@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.time.Duration;
 
 
-public class ParallelExecution {
+public class ParallelExecutionTest {
     private WebDriverWait wait;
 
     @BeforeMethod
