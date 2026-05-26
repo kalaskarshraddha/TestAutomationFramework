@@ -32,4 +32,4 @@ jobs:
       run: echo "CHROME_OPTIONS=--headless --no-sandbox --disable-dev-shm-usage --disable-gpu --window-size=1920,1080" >> $GITHUB_ENV
 
     - name: Build with Maven
-      run: mvn clean test -pl UI -am -Dtest=org.naukriautomation.NaukriTest
+      run: mvn clean test -pl UI -am -Dtest=org.naukriautomation.NaukriTest -DheadlessMode=enabled
