@@ -27,5 +27,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y google-chrome-stable
 
+    # Force Chrome to run headless in CI
+    - name: Set Chrome options for CI
+      run: echo "CHROME_OPTIONS=--headless --no-sandbox --disable-dev-shm-usage --disable-gpu --window-size=1920,1080" >> $GITHUB_ENV
+
     - name: Build with Maven
       run: mvn clean test -pl UI -am -Dtest=org.naukriautomation.NaukriTest
