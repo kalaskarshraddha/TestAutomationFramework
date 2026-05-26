@@ -17,7 +17,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    # Install Chrome
+    # Install Chrome (Selenium Manager will handle ChromeDriver)
     - name: Install Google Chrome
       run: |
         sudo apt-get update
@@ -26,16 +26,6 @@ jobs:
         sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
         sudo apt-get update
         sudo apt-get install -y google-chrome-stable
-
-    # Install ChromeDriver
-    - name: Install ChromeDriver
-      run: |
-        CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
-        CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
-        wget https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip
-        sudo mv chromedriver /usr/local/bin/
-        chromedriver --version
 
     - name: Build with Maven
       run: mvn clean test -pl UI -am -Dtest=org.naukriautomation.NaukriTest
