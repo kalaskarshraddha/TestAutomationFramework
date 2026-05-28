@@ -6,6 +6,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.retryFailedTests.RetryAnalyzer;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.utils.ExcelUtils;
@@ -34,7 +35,7 @@ public class NaukriTest {
         loginPageFactory = new LoginPageFactory(driver);
     }
 
-    @Test(dataProvider = "testData")
+    @Test(dataProvider = "testData", retryAnalyzer = RetryAnalyzer.class)
     public void updateProfile(String usrname, String pwd) throws IOException {
         WebDriver driver = DriverFactory.getDriver();
 

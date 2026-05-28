@@ -31,5 +31,20 @@
             <version>3.0</version>
             <scope>test</scope>
         </dependency>
+
+<!--        &lt;!&ndash; Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind &ndash;&gt;-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.21.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Source: https://mvnrepository.com/artifact/io.rest-assured/json-schema-validator -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>5.5.7</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
