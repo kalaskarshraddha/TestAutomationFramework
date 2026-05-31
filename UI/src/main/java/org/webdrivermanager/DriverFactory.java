@@ -14,17 +14,21 @@ public class DriverFactory {
         return thDriver.get();
     }
 
+    private static ChromeOptions getChromeOptions() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");                // run without UI
+        options.addArguments("--no-sandbox");              // required in CI
+        options.addArguments("--disable-dev-shm-usage");   // avoid /dev/shm issues
+        options.addArguments("--disable-gpu");             // optional, safer in headless
+        options.addArguments("--window-size=1920,1080");   // set a default size
+        return options;
+    }
+
     public static void initDriver(String browserName) {
         if (browserName.equalsIgnoreCase("Chrome")) {
             if (System.getProperty("headlessMode") != null) {
                 if (System.getProperty("headlessMode").equalsIgnoreCase("enabled")) {
-                    System.out.println("**********************************");
-                    ChromeOptions options = new ChromeOptions();
-                    options.addArguments("--headless");                // run without UI
-                    options.addArguments("--no-sandbox");              // required in CI
-                    options.addArguments("--disable-dev-shm-usage");   // avoid /dev/shm issues
-                    options.addArguments("--disable-gpu");             // optional, safer in headless
-                    options.addArguments("--window-size=1920,1080");   // set a default size
+                    ChromeOptions options = getChromeOptions();
                     thDriver.set(new ChromeDriver(options));
                 }
             } else {
