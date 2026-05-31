@@ -1,0 +1,16 @@
+<suite name="Cross Browser test execution" >
+    <test name="Chrome test">
+        <parameter name="browser" value="chrome"></parameter>
+        <classes>
+            <class name="org.naukriautomation.NaukriTest"/>
+        </classes>
+    </test>
+
+    <test name="Edge test">
+        <parameter name="browser" value="edge"></parameter>
+        <classes>
+            <class name="org.naukriautomation.NaukriTest"/>
+        </classes>
+    </test>
+
+</suite>

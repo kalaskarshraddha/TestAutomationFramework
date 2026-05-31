@@ -28,7 +28,7 @@ public class NaukriTest {
     @Parameters("browser")
     public void setUp(@Optional("chrome") String browser) throws IOException {
         driver = DriverFactory.getDriver(browser);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         String appUrl= PropertiesFileReader.getDataFromPropertiesFile("qa","app_url");
         driver.get(appUrl);
