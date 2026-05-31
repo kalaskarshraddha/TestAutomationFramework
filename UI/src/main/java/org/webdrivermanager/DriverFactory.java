@@ -35,7 +35,10 @@ public class DriverFactory {
     }
 
     public static void quitDriver() {
-        getDriver("Chrome").quit();
-        thDriver.remove();
+        WebDriver driver = thDriver.get();
+        if (driver != null) {
+            driver.quit();
+            thDriver.remove();
+        }
     }
 }

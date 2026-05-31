@@ -19,13 +19,15 @@ import java.time.Duration;
 @Listeners(TestListeners.class)
 public class NaukriTest {
 
+    private WebDriver driver;
     private LoginPageFactory loginPageFactory;
     private MyNaukriPage myNaukriPage;
     private MyProfilePage myProfilePage;
 
     @BeforeMethod
-    public void setUp() throws IOException {
-        WebDriver driver = DriverFactory.getDriver("Chrome");
+    @Parameters("browser")
+    public void setUp(@Optional("chrome") String browser) throws IOException {
+        driver = DriverFactory.getDriver(browser);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().window().maximize();
         String appUrl= PropertiesFileReader.getDataFromPropertiesFile("qa","app_url");
@@ -50,7 +52,7 @@ public class NaukriTest {
         myProfilePage.clickSaveProfileBtn();
         myProfilePage.checkProfileUpdateConfirmMsg();
 
-        TakesScreenshot ts = (TakesScreenshot) DriverFactory.getDriver("Chrome");
+        TakesScreenshot ts = (TakesScreenshot) driver;
         File src = ts.getScreenshotAs(OutputType.FILE);
         File dest = new File("target" + File.separator + "fileUpdated.jpg");
         FileHandler.copy(src, dest);
