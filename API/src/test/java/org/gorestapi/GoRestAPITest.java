@@ -1,7 +1,6 @@
 package org.gorestapi;
 
 
-import io.restassured.RestAssured;
 import org.apiautomation.pojo.createuserapi.CreateUserRequest;
 import org.apiautomation.pojo.createuserapi.CreateUserResponse;
 import org.apiautomation.pojo.getuserapi.GetUserResponse;
@@ -30,8 +29,8 @@ public class GoRestAPITest {
         GoRestAPITest goRestAPITest = new GoRestAPITest();
         CreateUserRequest requestBody = goRestAPITest.createUserRqstBody("PQR123456789", "pqr123456789@gmail.com", "female", "active");
         CreateUserResponse response = given().log().all()
-                .baseUri(PropertiesFileReader.getDataFromPropertiesFile("qa_env_apiconfig","baseuri"))
-                .auth().oauth2(PropertiesFileReader.getDataFromPropertiesFile("qa_env_apiconfig","bearer_token"))
+                .baseUri(PropertiesFileReader.getDataFromPropertiesFile("qa_env_apiconfig", "baseuri"))
+                .auth().oauth2(PropertiesFileReader.getDataFromPropertiesFile("qa_env_apiconfig", "bearer_token"))
                 .body(requestBody)
                 .header("Content-Type", "application/json")
 
@@ -58,7 +57,7 @@ public class GoRestAPITest {
                 .baseUri("https://gorest.co.in")
                 .auth().oauth2("a57d70d4d4a523a348c344eed13207d0ea397036586825eb6e1f7492b15ff955")
                 .header("Content-Type", "application/json")
-                .pathParam("xyz",8477611)
+                .pathParam("xyz", 8477611)
                 .queryParam("page", 2)
 
                 .when()
@@ -67,6 +66,7 @@ public class GoRestAPITest {
                 .then()
                 .statusCode(200)
                 .extract().response().as(GetUserResponse.class);
+        //.extract().response().getTime();
         System.out.println(response);
 
     }
