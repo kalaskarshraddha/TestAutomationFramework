@@ -9,7 +9,7 @@ import org.webdrivermanager.DriverFactory;
 import java.time.Duration;
 
 public class LoginPageSimple {
-    private final WebDriver driver = DriverFactory.getDriver();
+    private final WebDriver driver = DriverFactory.getDriver("Chrome");
     private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
     private By lgnBtn = By.id("login_Layer");

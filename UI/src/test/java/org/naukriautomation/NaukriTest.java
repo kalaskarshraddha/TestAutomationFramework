@@ -1,13 +1,12 @@
 package org.naukriautomation;
 
 import org.POM.LoginPageFactory;
+import org.POM.MyNaukriPage;
+import org.POM.MyProfilePage;
 import org.listener.TestListeners;
 import org.openqa.selenium.*;
 import org.openqa.selenium.io.FileHandler;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.retryFailedTests.RetryAnalyzer;
-import org.testng.Assert;
 import org.testng.annotations.*;
 import org.utils.ExcelUtils;
 import org.utils.PropertiesFileReader;
@@ -20,42 +19,38 @@ import java.time.Duration;
 @Listeners(TestListeners.class)
 public class NaukriTest {
 
-    private WebDriverWait wait;
     private LoginPageFactory loginPageFactory;
+    private MyNaukriPage myNaukriPage;
+    private MyProfilePage myProfilePage;
 
     @BeforeMethod
     public void setUp() throws IOException {
-        WebDriver driver = DriverFactory.getDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriver driver = DriverFactory.getDriver("Chrome");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().window().maximize();
         String appUrl= PropertiesFileReader.getDataFromPropertiesFile("qa","app_url");
         driver.get(appUrl);
 
         loginPageFactory = new LoginPageFactory(driver);
+        myNaukriPage = new MyNaukriPage(driver);
+        myProfilePage = new MyProfilePage(driver);
     }
 
     @Test(dataProvider = "testData", retryAnalyzer = RetryAnalyzer.class)
-    public void updateProfile(String usrname, String pwd) throws IOException {
-        WebDriver driver = DriverFactory.getDriver();
-
-        //click on login button and enter username and password
-        //LoginPageSimple loginPageSimple = new LoginPageSimple();
-        //loginPageSimple.clickLogin();
+    public void updateProfile(String username, String pwd) throws IOException {
 
         loginPageFactory.clickOnLgn();
-        loginPageFactory.enterUserName(usrname);
+        loginPageFactory.enterUserName(username);
         loginPageFactory.enterPwd(pwd);
         loginPageFactory.clickOnSubmitBtn();
 
-        driver.findElement(By.xpath("//*[@class=\"view-profile-wrapper\"]/child::a")).click();
-        driver.findElement(By.xpath("//em[@class=\"icon edit \"]")).click();
-        driver.findElement(By.id("saveBasicDetailsBtn")).click();
+        myNaukriPage.clickViewProfileBtn();
 
-        String confirmMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Profile updated successfully']"))).getText();
-        Assert.assertEquals(confirmMsg, "Profile updated successfully");
+        myProfilePage.clickEditProfileBtn();
+        myProfilePage.clickSaveProfileBtn();
+        myProfilePage.checkProfileUpdateConfirmMsg();
 
-        TakesScreenshot ts = (TakesScreenshot) driver;
+        TakesScreenshot ts = (TakesScreenshot) DriverFactory.getDriver("Chrome");
         File src = ts.getScreenshotAs(OutputType.FILE);
         File dest = new File("target" + File.separator + "fileUpdated.jpg");
         FileHandler.copy(src, dest);

@@ -20,7 +20,7 @@ public class ParallelExecutionTest {
 
     @BeforeMethod
     public void setUp() {
-        WebDriver driver = DriverFactory.getDriver();
+        WebDriver driver = DriverFactory.getDriver("Chrome");
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
@@ -32,7 +32,7 @@ public class ParallelExecutionTest {
     @Test
     public void test1() throws IOException {
         System.out.println("test 1");
-        WebDriver driver = DriverFactory.getDriver();
+        WebDriver driver = DriverFactory.getDriver("Chrome");
         driver.get("https://www.naukri.com/");
         TakesScreenshot ts = (TakesScreenshot) driver;
         File src = ts.getScreenshotAs(OutputType.FILE);
@@ -43,7 +43,7 @@ public class ParallelExecutionTest {
     @Test
     public void test2() throws IOException {
         System.out.println("test 2");
-        WebDriver driver = DriverFactory.getDriver();
+        WebDriver driver = DriverFactory.getDriver("Chrome");
         driver.get("https://www.google.com/");
         TakesScreenshot ts = (TakesScreenshot) driver;
         File src = ts.getScreenshotAs(OutputType.FILE);

@@ -8,9 +8,9 @@ import org.openqa.selenium.edge.EdgeDriver;
 public class DriverFactory {
     private static final ThreadLocal<WebDriver> thDriver = new ThreadLocal<>();
 
-    public static WebDriver getDriver() {
+    public static WebDriver getDriver(String browserName) {
         if (thDriver.get() == null)
-            initDriver("Chrome");
+            initDriver(browserName);
         return thDriver.get();
     }
 
@@ -35,7 +35,7 @@ public class DriverFactory {
     }
 
     public static void quitDriver() {
-        getDriver().quit();
+        getDriver("Chrome").quit();
         thDriver.remove();
     }
 }

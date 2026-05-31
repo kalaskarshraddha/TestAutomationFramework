@@ -13,7 +13,7 @@ import java.io.IOException;
 public class TestListeners implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
-        TakesScreenshot ts = (TakesScreenshot) DriverFactory.getDriver();
+        TakesScreenshot ts = (TakesScreenshot) DriverFactory.getDriver("Chrome");
         File src = ts.getScreenshotAs(OutputType.FILE);
         File dest = new File("target" + File.separator + "failedScrnShot.jpg");
         try {
