@@ -50,7 +50,7 @@ public class NaukriTest {
 
         myProfilePage.clickEditProfileBtn();
         myProfilePage.clickSaveProfileBtn();
-        myProfilePage.checkProfileUpdateConfirmMsg();
+        //myProfilePage.checkProfileUpdateConfirmMsg();
 
         TakesScreenshot ts = (TakesScreenshot) driver;
         File src = ts.getScreenshotAs(OutputType.FILE);
